@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GRASYA WORLDWIDE - SWEETHEARTS TEE</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">GRASYA WORLDWIDE</div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="product.html">Shop</a>
+      <a href="index.html">Ambassadors</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <main class="product-page">
+    <section class="product-grid">
+
+      <!-- Left: Gallery -->
+      <div class="gallery">
+        <div class="main-image-wrap">
+          <img id="mainImage" src="https://spotsg.com/cdn/shop/files/352359180_576830374631994_3237034690507119270_n.jpg?v=1706679253&width=1946" alt="GRASYA Sweethearts Tee - main" />
+        </div>
+
+        <div class="thumbnails" id="thumbs">
+          <button class="thumb active" data-src="https://grasyaworldwide.com/cdn/shop/files/IMG_3459.jpg?v=1753008315">
+            <img src="https://grasyaworldwide.com/cdn/shop/files/IMG_3459.jpg?v=1753008315" alt="thumb1" />
+          </button>
+          <button class="thumb" data-src="https://spotsg.com/cdn/shop/files/352359180_576830374631994_3237034690507119270_n.jpg?v=1706679253&width=1946">
+            <img src="https://spotsg.com/cdn/shop/files/352359180_576830374631994_3237034690507119270_n.jpg?v=1706679253&width=1946" alt="thumb2" />
+          </button>
+          <button class="thumb" data-src="https://down-ph.img.susercontent.com/file/ph-11134207-7r98z-lrsp3b27kwz909">
+            <img src="https://down-ph.img.susercontent.com/file/ph-11134207-7r98z-lrsp3b27kwz909" alt="thumb3" />
+          </button>
+          <button class="thumb" data-src="https://grasyaworldwide.com/cdn/shop/files/3906c0f7d2cb07552695145c2f2d43db.jpg?v=1753008340">
+            <img src="https://grasyaworldwide.com/cdn/shop/files/3906c0f7d2cb07552695145c2f2d43db.jpg?v=1753008340" alt="thumb4" />
+          </button>
+        </div>
+      </div>
+
+      <!-- Right: Product Info -->
+      <div class="product-info">
+        <h1 class="product-title">GRASYA WORLDWIDE SWEETHEARTS TEE</h1>
+
+        <div class="meta-row">
+          <div class="price">Choose</div>
+          <div class="rating">★ 4.8 · 256 reviews</div>
+        </div>
+
+        <p class="short-desc">
+          Soft cotton tee with bold “Sweethearts” screen print. Relaxed fit — perfect for everyday streetwear.
+        </p>
+
+        <form class="purchase-form" id="purchaseForm">
+          <label class="field-label">Size</label>
+          <div class="sizes" role="radiogroup" aria-label="sizes">
+            <label><input type="radio" name="size" value="S" /> S</label>
+            <label><input type="radio" name="size" value="M" checked /> M</label>
+            <label><input type="radio" name="size" value="L" /> L</label>
+            <label><input type="radio" name="size" value="XL" /> XL</label>
+          </div>
+
+          <label class="field-label">Quantity</label>
+          <div class="qty">
+            <button type="button" id="qtyDown">−</button>
+            <input type="number" id="quantity" value="1" min="1" />
+            <button type="button" id="qtyUp">+</button>
+          </div>
+
+          <div class="actions">
+            <button type="button" class="btn buy-now" id="buyNow">Register Now</button>
+          </div>
+
+          <div class="shipping">
+            <strong>Free:</strong> Calculated at checkout · Ships from Philippines
+          </div>
+        </form>
+
+        <details class="product-details">
+          <summary>Free Product </summary>
+          <ul>
+            <li>100% Cotton</li>
+            <li>Unisex relaxed fit</li>
+            <li>Screen printed design</li>
+            <li>Machine wash cold, tumble dry low</li>
+          </ul>
+        </details>
+      </div>
+
+    </section>
+
+    <!-- Reviews + Description -->
+    <section class="extras">
+      <div class="description">
+        <h2>Register For Free</h2>
+        <p>
+          Help us spread our product to the world! The GRASYA WORLDWIDE Sweethearts — choose any free product and make a good review to help us grow.
+        </p>
+      </div>
+
+      <div class="reviews">
+        <h2>Customer reviews</h2>
+        <article class="review">
+          <strong>Anna</strong>
+          <div class="stars">★ ★ ★ ★ ★</div>
+          <p>Great quality and fits perfectly. Love the print!</p>
+        </article>
+
+        <article class="review">
+          <strong>Marco</strong>
+          <div class="stars">★ ★ ★ ★ ☆</div>
+          <p>Good shirt for the price — color slightly different from photo.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>© GRASYA WORLDWIDE</div>
+  </footer>
+
+  <script>
+    // Quantity buttons
+    document.getElementById("qtyUp").onclick = () => {
+      let q = document.getElementById("quantity");
+      q.value = parseInt(q.value) + 1;
+    };
+    document.getElementById("qtyDown").onclick = () => {
+      let q = document.getElementById("quantity");
+      if (q.value > 1) q.value = parseInt(q.value) - 1;
+    };
+
+    // Image switcher
+    document.querySelectorAll(".thumb").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.getElementById("mainImage").src = btn.dataset.src;
+        document.querySelectorAll(".thumb").forEach(t => t.classList.remove("active"));
+        btn.classList.add("active");
+      });
+    });
+
+    // Register Now redirect (to neutral login)
+    document.getElementById("buyNow").addEventListener("click", () => {
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>
