@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GRASYA Product Shipping</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif; 
+      background-color: #f5f6f7; 
+      margin: 0; 
+      padding: 0;
+    }
+    .shipping-container {
+      max-width: 450px; 
+      background: white; 
+      margin: 50px auto; 
+      padding: 30px 40px; 
+      border-radius: 10px; 
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .tab-container {
+      display: flex; 
+      border-bottom: 2px solid #ddd; 
+      margin-bottom: 20px;
+    }
+    .tab-button {
+      flex:1; 
+      background: none; 
+      border: none; 
+      font-weight: bold; 
+      padding: 10px; 
+      cursor: pointer;
+    }
+    .tab-active {
+      border-bottom: 3px solid #1877f2; 
+      color:#1877f2;
+    }
+    .tab-inactive {
+      color:#888;
+    }
+    .required-note {
+      font-size: 12px; 
+      color: #555;
+    }
+    .form-input {
+      width:100%; 
+      padding:12px; 
+      margin-top:5px; 
+      margin-bottom:15px; 
+      border:1px solid #ccc; 
+      border-radius:6px; 
+      font-size:14px;
+      box-sizing: border-box;
+    }
+    .form-label {
+      font-weight:bold; 
+      font-size: 14px;
+    }
+    .form-row {
+      display: flex; 
+      gap: 10px;
+    }
+    .form-column {
+      flex:1;
+    }
+    .submit-button {
+      width:100%; 
+      background-color:#1877f2; 
+      color:white; 
+      border:none; 
+      border-radius:6px; 
+      padding:14px; 
+      font-size:16px; 
+      font-weight:bold; 
+      cursor:pointer;
+    }
+    .submit-button:hover {
+      background-color: #145dbf;
+    }
+  </style>
+</head>
+<body>
+  <div class="shipping-container">
+    <h2 style="margin-bottom: 5px;">Shipping Address</h2>
+
+    <div class="tab-container">
+      <button class="tab-button tab-active">Your Address</button>
+      <button class="tab-button tab-inactive">UPS Access Point</button>
+    </div>
+
+    <p class="required-note">*Required field</p>
+
+    <form id="shippingForm">
+      <label class="form-label">First name*</label><br>
+      <input type="text" name="firstname" required class="form-input">
+
+      <label class="form-label">Last name*</label><br>
+      <input type="text" name="lastname" required class="form-input">
+
+      <label class="form-label">Address line 1*</label><br>
+      <input type="text" name="address1" required class="form-input">
+
+      <label class="form-label">Address line 2 (Optional)</label><br>
+      <input type="text" name="address2" class="form-input">
+
+      <div class="form-row">
+        <div class="form-column">
+          <label class="form-label">Zip code*</label><br>
+          <input type="text" name="zipcode" required class="form-input">
+        </div>
+        <div class="form-column">
+          <label class="form-label">State*</label><br>
+          <select name="state" required class="form-input">
+            <option value="">Select</option>
+            <option value="NCR">NCR</option>
+            <option value="Luzon">Luzon</option>
+            <option value="Visayas">Visayas</option>
+            <option value="Mindanao">Mindanao</option>
+          </select>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-button">
+        Continue
+      </button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("shippingForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      alert("Shipping details submitted successfully!");
+      window.location.href = "index.html"; // redirect after submission
+    });
+
+    // Tab functionality
+    const tabs = document.querySelectorAll('.tab-button');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        tabs.forEach(t => {
+          t.classList.remove('tab-active');
+          t.classList.add('tab-inactive');
+        });
+        this.classList.remove('tab-inactive');
+        this.classList.add('tab-active');
+      });
+    });
+  </script>
+</body>
+</html>
